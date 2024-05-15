@@ -1,0 +1,42 @@
+﻿@page
+@model Proyecto_RAZOR.Pages.Index1Model
+@{
+	ViewData["Title"] = "Ejercicio 1";
+}
+
+<head>
+	<link rel="stylesheet" href="./css/Ejer1.css" />
+</head>
+
+<!--
+
+Realizar una web que solicite dos números y, al pulsar un botón, 
+nos devuelva sobre la misma página cuál es el resultado de sumar, 
+restar, multiplica y dividir ambos números.
+
+-->
+
+<h1>Operaciones con Números</h1>
+<br />
+<p>Primer número: </p> <input type="text" id="num1" />
+<p>Segundo número: </p> <input type="text" id="num2" />
+<br />
+<br />
+<button id="operar">Operar</button>
+<br />
+<br />
+<div class="resultados">
+	<p id="resultado"></p>
+</div>
+
+<script>
+	document.getElementById("operar").addEventListener("click", function() {
+		var num1 = document.getElementById("num1").value;
+		var num2 = document.getElementById("num2").value;
+		var resultado = document.getElementById("resultado");
+		resultado.innerHTML = "Suma: " + "<br />" + (parseInt(num1) + parseInt(num2)) + "<br />" +
+			"Resta: " + "<br />" + (parseInt(num1) - parseInt(num2)) + "<br />" +
+			"Multiplicación: " + "<br />" + (parseInt(num1) * parseInt(num2)) + "<br />" +
+			"División: " + "<br />" + (parseInt(num1) / parseInt(num2));
+	});
+</script>
