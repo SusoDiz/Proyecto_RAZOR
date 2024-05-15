@@ -1,0 +1,40 @@
+﻿@page
+@model Proyecto_RAZOR.Pages.Ejer3Model
+@{
+	ViewData["Title"] = "Ejercicio 3";
+}
+
+<!--
+
+Generar una web que, dada una fecha solicitada 
+en un cuadro de texto, nos devuelve cuantos días 
+hay desde esa fecha hasta el día de hoy. Se debe 
+controlar que la fecha sea inferior al día de hoy 
+y se realiza la devolución del valor en días sobre 
+la misma página actual.
+
+-->
+
+<h1>Calcula Días</h1>
+<br />
+<p>Fecha: </p> <input type="date" id="fecha" />
+<br />
+<br />
+<button id="calcular">Calcular</button>
+<br />
+<br />
+<h1>Días Calculados</h1>
+<div class="resultados">
+	<p id="resultado"></p>
+</div>
+
+<script>
+	document.getElementById("calcular").addEventListener("click", function() {
+		var fecha = new Date(document.getElementById("fecha").value);
+		var hoy = new Date();
+		var resultado = document.getElementById("resultado");
+		var diferencia = hoy - fecha;
+		var dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+		resultado.innerHTML = "Han pasado " + dias + " días.";
+	});
+</script>
