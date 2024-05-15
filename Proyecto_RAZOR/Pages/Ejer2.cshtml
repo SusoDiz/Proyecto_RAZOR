@@ -16,3 +16,34 @@ de veces que ha encontrado la palabra en el texto dado. Además, debe
 implementarse un enlace en la segunda página que nos devuelva a la primera.
 
 -->
+
+<h1>Cuenta Palabras</h1>
+<br />
+<p>Frase: </p> <input type="text" id="texto" />
+<br />
+<p>Palabra: </p> <input type="text" id="palabra" />
+<br />
+<br />
+<button id="contar">Cuenta</button>
+<br />
+<br />
+<h1>Palabras Contadas</h1>
+<div class="resultados">
+	<p id="resultado"></p>
+</div>
+
+<script>
+	document.getElementById("contar").addEventListener("click", function() {
+		var texto = document.getElementById("texto").value;
+		var palabra = document.getElementById("palabra").value;
+		var resultado = document.getElementById("resultado");
+		var palabras = texto.split(" ");
+		var contador = 0;
+		for (var i = 0; i < palabras.length; i++) {
+			if (palabras[i] == palabra) {
+				contador++;
+			}
+		}
+		resultado.innerHTML = "La palabra " + palabra + " aparece " + contador + " veces.";
+	});
+</script>
