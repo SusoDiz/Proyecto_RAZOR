@@ -1,49 +1,57 @@
 ﻿@page
 @model Proyecto_RAZOR.Pages.Ejer2Model
 @{
-	ViewData["Title"] = "Ejercicio 2";
+    ViewData["Title"] = "Ejercicio 2";
 }
 
 <head>
-	<link rel="stylesheet" href="./css/Ejer2.css" />
+    <link rel="stylesheet" href="./css/Ejer2.css" />
 </head>
 
 <!--
 
-Realizar una página que, leído un texto de un cuadro de texto, 
-y una palabra en otro, nos indique sobre una página nueva la cantidad 
-de veces que ha encontrado la palabra en el texto dado. Además, debe 
+Realizar una página que, leído un texto de un cuadro de texto,
+y una palabra en otro, nos indique sobre una página nueva la cantidad
+de veces que ha encontrado la palabra en el texto dado. Además, debe
 implementarse un enlace en la segunda página que nos devuelva a la primera.
 
 -->
 
 <h1>Cuenta Palabras</h1>
 <br />
-<p>Frase: </p> <input type="text" id="texto" />
-<br />
-<p>Palabra: </p> <input type="text" id="palabra" />
-<br />
-<br />
-<button id="contar">Cuenta</button>
+<form method="get">
+    <p>Frase: </p> <input type="text" name="texto" />
+    <br />
+    <p>Palabra: </p> <input type="text" name="palabra" />
+    <br />
+    <br />
+    <button type="submit" id="contar">Cuenta</button>
+</form>
 <br />
 <br />
 <h1>Palabras Contadas</h1>
 <div class="resultados">
-	<p id="resultado"></p>
-</div>
+    <p id="resultado">
+        @{
+            if (!string.IsNullOrEmpty(Request.Query["texto"]) && !string.IsNullOrEmpty(Request.Query["palabra"]))
+            {
+            int contador = 0;
+            string texto = Request.Query["texto"];
+            string palabra = Request.Query["palabra"];
 
-<script>
-	document.getElementById("contar").addEventListener("click", function() {
-		var texto = document.getElementById("texto").value;
-		var palabra = document.getElementById("palabra").value;
-		var resultado = document.getElementById("resultado");
-		var palabras = texto.split(" ");
-		var contador = 0;
-		for (var i = 0; i < palabras.length; i++) {
-			if (palabras[i] == palabra) {
-				contador++;
-			}
-		}
-		resultado.innerHTML = "La palabra " + palabra + " aparece " + contador + " veces.";
-	});
-</script>
+            if (texto != "" && palabra != "")
+            {
+                string[] palabras = texto.Split(' ');
+                foreach (string p in palabras)
+                {
+                    if (p == palabra)
+                    {
+                        contador++;
+                    }
+                }
+            }
+            <text>La palabra @palabra aparece @contador veces</text>
+            }
+        }
+    </p>
+</div>

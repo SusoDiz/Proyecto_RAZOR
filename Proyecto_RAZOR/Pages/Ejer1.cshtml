@@ -1,42 +1,54 @@
 ﻿@page
 @model Proyecto_RAZOR.Pages.Index1Model
 @{
-	ViewData["Title"] = "Ejercicio 1";
+    ViewData["Title"] = "Ejercicio 1";
 }
-
 <head>
-	<link rel="stylesheet" href="./css/Ejer1.css" />
+    <link rel="stylesheet" href="./css/Ejer1.css" />
 </head>
-
+<html>
 <!--
 
-Realizar una web que solicite dos números y, al pulsar un botón, 
-nos devuelva sobre la misma página cuál es el resultado de sumar, 
-restar, multiplica y dividir ambos números.
+Realizar una web que solicite dos números y, al pulsar un botón, nos devuelva sobre la misma página cuál es el resultado de sumar, restar, multiplica y dividir ambos números.
 
 -->
 
 <h1>Operaciones con Números</h1>
 <br />
-<p>Primer número: </p> <input type="text" id="num1" />
-<p>Segundo número: </p> <input type="text" id="num2" />
-<br />
-<br />
-<button id="operar">Operar</button>
+<form method="post">
+    <p>Primer número: </p> <input type="number" name="Num1" />
+    <p>Segundo número: </p> <input type="number" name="Num2" />
+    <br />
+    <br />
+    <button type="submit" name="operar">Operar</button>
+</form>
 <br />
 <br />
 <div class="resultados">
-	<p id="resultado"></p>
-</div>
+@{
+    if (Request.Method == "POST")
+    {
+        int num1, num2;
+        if (int.TryParse(Request.Form["Num1"], out num1) && int.TryParse(Request.Form["Num2"], out num2))
+        {
+            
+            int suma = num1 + num2;
+            <p>La suma de @num1 y @num2 es: @suma</p>
 
-<script>
-	document.getElementById("operar").addEventListener("click", function() {
-		var num1 = document.getElementById("num1").value;
-		var num2 = document.getElementById("num2").value;
-		var resultado = document.getElementById("resultado");
-		resultado.innerHTML = "Suma: " + "<br />" + (parseInt(num1) + parseInt(num2)) + "<br />" +
-			"Resta: " + "<br />" + (parseInt(num1) - parseInt(num2)) + "<br />" +
-			"Multiplicación: " + "<br />" + (parseInt(num1) * parseInt(num2)) + "<br />" +
-			"División: " + "<br />" + (parseInt(num1) / parseInt(num2));
-	});
-</script>
+            int resta = num1 - num2;
+            <p>La resta de @num1 y @num2 es: @resta</p>
+
+            int multiplicacion = num1 * num2;
+            <p>La multiplicación de @num1 y @num2 es: @multiplicacion</p>
+
+            int division = num1 / num2;
+            <p>La división de @num1 y @num2 es: @division</p>
+        }
+        else
+        {
+            <p>Introduce números válidos</p>
+        }
+    }
+}
+</div>
+</html>
