@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Proyecto_RAZOR.Pages
 {
-    public class Ejer1Model : PageModel
+    public class EjerClaseModel : PageModel
     {
         public void OnGet()
         {

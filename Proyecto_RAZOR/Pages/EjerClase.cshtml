@@ -1,0 +1,66 @@
+﻿@page
+@model Proyecto_RAZOR.Pages.EjerClaseModel
+@{
+	ViewData["Title"] = "Ejercicio 1";
+}
+
+<link rel="stylesheet" href="./css/Ejer1.css" />
+
+<!--
+
+Realizar una web que solicite dos números y, al pulsar un botón,
+nos devuelva sobre la misma página cuál es el resultado de sumar,
+restar, multiplica y dividir ambos números.
+
+-->
+
+<h1>Operaciones con Números</h1>
+<br />
+<form method="post">
+	<p>Primer número: </p> <input type="number" name="Num1" />
+	<p>Segundo número: </p> <input type="number" name="Num2" />
+	<br />
+	<br />
+	<button type="submit" name="operar">Operar</button>
+</form>
+<br />
+<br />
+<div class="resultados">
+	@{
+		if (Request.Method == "POST")
+		{
+			int num1, num2;
+			if (int.TryParse(Request.Form["Num1"], out num1) && int.TryParse(Request.Form["Num2"], out num2))
+			{
+					int suma = num1 + num2;
+					<p>La suma de @num1 y @num2 es: @suma</p>
+
+					int resta = num1 - num2;
+					<p>La resta de @num1 y @num2 es: @resta</p>
+
+					int multiplicacion = num1 * num2;
+					<p>La multiplicación de @num1 y @num2 es: @multiplicacion</p>
+
+					int division = num1 / num2;
+				<p>La división de @num1 y @num2 es: @division</p>
+
+				using (StreamWriter sw = new StreamWriter("./Calculos.html"))
+				{
+					sw.WriteLine("<table style=\"border: solid 2px black\" >");
+					sw.WriteLine("<tr>");
+					sw.WriteLine("<td style=\"border: solid 1px black\" >" + num1 + " + " + num2 + " = " + (num1 + num2) + "</td>");
+					sw.WriteLine("<td style=\"border: solid 1px black\" >" + num1 + " - " + num2 + " = " + (num1 - num2) + "</td>");
+					sw.WriteLine("<td style=\"border: solid 1px black\" >" + num1 + " * " + num2 + " = " + (num1 * num2) + "</td>");
+					sw.WriteLine("<td style=\"border: solid 1px black\" >" + num1 + " / " + num2 + " = " + (num1 / num2) + "</td>");
+					sw.WriteLine("</tr>");
+					sw.WriteLine("</table>");
+
+				}
+			}
+			else
+			{
+				<p>Introduce números válidos</p>
+			}
+		}
+	}
+</div>
