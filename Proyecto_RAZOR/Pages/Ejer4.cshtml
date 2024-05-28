@@ -1,0 +1,76 @@
+﻿@page
+@model Proyecto_RAZOR.Pages.Ejer4Model
+@{
+}
+
+<head>
+	<link rel="stylesheet" href="./css/Ejer4.css" />
+</head>
+
+<br />
+<form method="get">
+	<p>Numero 1: </p> <input type="text" name="num1" />
+	<input type="checkbox" name="check1" />
+	<br />
+	<p>Numero 2: </p> <input type="text" name="num2" />
+	<input type="checkbox" name="check2" />
+	<br />
+	<p>Numero 3: </p> <input type="text" name="num3" />
+	<input type="checkbox" name="check3" />
+	<br />
+	<p>Numero 4: </p> <input type="text" name="num4" />
+	<input type="checkbox" name="check4" />
+	<br />
+	<br />
+	<input id="suma" type="radio" name="operacion" value="suma" /> Suma
+	<input id="multiplicacion" type="radio" name="operacion" value="multiplicacion" /> Multiplicación
+	<br />
+	<br />
+	<button type="submit" id="calcular">Calcular</button>
+	<button type="reset" id="limpiar">Limpiar</button>
+</form>
+
+<br />
+
+<div class="resultados">
+	<p id="resultado">
+		@{
+			if (!string.IsNullOrEmpty(Request.Query["operacion"]))
+			{
+				string operacion = Request.Query["operacion"];
+				int resultado = operacion == "suma" ? 0 : 1;
+				string numeros = "";
+				string operador = "";
+
+				if (Request.Query["check1"] == "on")
+				{
+					int num1 = Convert.ToInt32(Request.Query["num1"]);
+					numeros += "Numero 1: " + num1 + "<br />";
+					resultado = operacion == "suma" ? resultado + num1 : resultado * num1;
+				}
+				if (Request.Query["check2"] == "on")
+				{
+					int num2 = Convert.ToInt32(Request.Query["num2"]);
+					numeros += "Numero 2: " + num2 + "<br />";
+					resultado = operacion == "suma" ? resultado + num2 : resultado * num2;
+				}
+				if (Request.Query["check3"] == "on")
+				{
+					int num3 = Convert.ToInt32(Request.Query["num3"]);
+					numeros += "Numero 3: " + num3 + "<br />";
+					resultado = operacion == "suma" ? resultado + num3 : resultado * num3;
+				}
+				if (Request.Query["check4"] == "on")
+				{
+					int num4 = Convert.ToInt32(Request.Query["num4"]);
+					numeros += "Numero 4: " + num4 + "<br />";
+					resultado = operacion == "suma" ? resultado + num4 : resultado * num4;
+				}
+
+				operador = operacion == "suma" ? "Suma" : "Multiplicación";
+
+				<text>@Html.Raw(numeros) <br /><br />Su @operador da: @resultado</text>
+			}
+		}
+	</p>
+</div>
