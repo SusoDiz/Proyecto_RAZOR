@@ -1,0 +1,11 @@
+﻿#imagenes {
+    display: flex;
+    width: 50%;
+}
+
+img {
+    width: 75px;
+    height: 75px;
+    margin: 0;
+}
+

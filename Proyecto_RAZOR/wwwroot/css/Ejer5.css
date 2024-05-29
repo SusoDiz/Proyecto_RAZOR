@@ -1,0 +1,19 @@
+﻿#selectores {
+    margin: 0 auto;
+    width: 20%;
+    text-align: right;
+    background-color: #f0f0f0;
+}
+
+#tablaNueva {
+    margin: 10px auto;
+    width: 20%;
+    text-align: center;
+
+}
+
+td {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+}

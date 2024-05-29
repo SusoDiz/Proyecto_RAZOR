@@ -1,0 +1,81 @@
+﻿@page
+@model Proyecto_RAZOR.Pages.Ejer5Model
+@{
+    ViewData["Title"] = "Ejercicio 5";
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="./css/Ejer5.css" />
+</head>
+<body>
+    <form method="post">
+        <div id="selectores">
+        <label for="filas">Filas:</label>
+        <select name="filas">
+            <option value="">--Selecciona--</option>
+            <option value="1">1</option>
+            <option value="3">3</option>
+            <option value="5">5</option>
+        </select>
+        <br />
+        <br />
+        <label for="columnas">Columnas:</label>
+        <select size="4" name="columnas">
+            <option value="">--Selecciona--</option>
+            <option value="1">1</option>
+            <option value="3">3</option>
+            <option value="5">5</option>
+        </select>
+        <br />
+        <br />
+        <input type="submit" value="Rellenar" />
+        <br />
+        <br />
+        </div>
+    </form>
+
+    <div id="tablaNueva">
+    @{
+
+        int filas = 0;
+        int columnas = 0;
+        string mensajeError = "";
+
+        if (Request.Method == "POST")
+        {
+            if (!string.IsNullOrEmpty(Request.Form["filas"]) && !string.IsNullOrEmpty(Request.Form["columnas"]))
+            {
+                filas = Convert.ToInt32(Request.Form["filas"]);
+                columnas = Convert.ToInt32(Request.Form["columnas"]);
+            }
+            else
+            {
+                mensajeError = "Debes seleccionar un valor para filas y columnas";
+            }
+        }
+
+        @if (filas > 0 && columnas > 0)
+        {
+            <table border="1">
+                @for (int i = 0; i < filas; i++)
+                {
+                    <tr>
+                        @for (int j = 0; j < columnas; j++)
+                        {
+                            <td>@(i * columnas + j + 1)</td>
+                        }
+                    </tr>
+                }
+            </table>
+        }
+		else
+		{
+			<p>@mensajeError</p>
+		}
+    }
+    </div>
+</body>
+</html>

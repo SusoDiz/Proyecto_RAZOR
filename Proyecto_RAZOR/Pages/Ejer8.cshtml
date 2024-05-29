@@ -1,0 +1,56 @@
+﻿@page
+@model Proyecto_RAZOR.Pages.Ejer8Model
+@{
+    ViewData["Title"] = "Ejercicio 8";
+}
+
+<header>
+    <link rel="stylesheet" href="./css/Ejer8.css" />
+</header>
+
+<form method="get">
+    <br />
+    <p>Introduzca un número: </p>
+    <input type="number" name="number" value="0" />
+    <br />
+    <br />
+    <button type="submit" id="ver">Ver</button>
+    <br />
+    <br />
+</form>
+
+@{
+    /*
+     * El número introducido en el campo "number" es el que se va a representar en imágenes al darle click al botón "Ver"
+     */
+    if (!string.IsNullOrEmpty(Request.Query["number"]))
+    {
+        int num;
+        if (int.TryParse(Request.Query["number"], out num))
+        {
+            if (num >= 0)
+            {
+                <div id="imagenes">
+                @{
+                string numString = num.ToString();
+                @foreach (char digit in numString)
+                {
+                    string digito = digit + ".png";
+                    <img src="@digito" />
+                }
+                }
+                </div>
+            }
+            else
+            {
+                <p>El número introducido no es válido</p>
+                <img src="~/PSSWD_MAL.png" />
+            }
+        }
+        else
+        {
+            <p>El número introducido no es válido</p>
+            <img src="~/PSSWD_MAL.png" />
+        }
+    }
+}
