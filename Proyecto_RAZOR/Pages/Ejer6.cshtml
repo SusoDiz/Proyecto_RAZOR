@@ -1,6 +1,117 @@
 ﻿@page
 @model Proyecto_RAZOR.Pages.Ejer6Model
 @{
-    ViewData["Title"] = "Ejercicio 6";
+	ViewData["Title"] = "Ejercicio 6";
 }
 
+<head>
+    <link rel="stylesheet" href="./css/Ejer6.css" />
+</head>
+
+@{
+    var password = "";
+    var passwordTest = "";
+    var passwordType = "";
+    var passwordLength = 0;
+    var message = "";
+
+    if (HttpContext.Request.Method == "POST")
+    {
+        password = Request.Form["password"];
+        passwordType = Request.Form["passwordType"];
+        var passwordLengthStr = Request.Form["passwordLength"];
+        passwordTest = Request.Form["passwordTest"];
+
+        if (!String.IsNullOrEmpty(passwordLengthStr))
+        {
+            passwordLength = Convert.ToInt32(passwordLengthStr);
+        }
+
+        if (!String.IsNullOrEmpty(passwordTest))
+        {
+            if (passwordTest == password)
+            {
+                message = "Contraseña correcta";
+                <img id="IMGpulgar" src="./PSSWD_OK.png" />
+            }
+            else
+            {
+                message = "Contraseña incorrecta";
+                <img id="IMGpulgar" src="./PSSWD_MAL.png" />
+            }
+        }
+        else if (passwordLength < 8 || passwordLength > 20)
+        {
+            message = "La longitud de la contraseña debe estar entre 8 y 20 caracteres.";
+        }
+        else
+        {
+            var chars = "";
+            if (passwordType == "1")
+            {
+                chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                if (passwordLength < 14)
+                {
+                    message = "Una contraseña de solo letras debe tener un mínimo de 14 caracteres.";
+                }
+            }
+            else if (passwordType == "2")
+            {
+                chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+                if (passwordLength < 12)
+                {
+                    message = "Una contraseña de letras y números debe tener un mínimo de 12 caracteres.";
+                }
+            }
+            else if (passwordType == "3")
+            {
+                chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()";
+                if (passwordLength < 8)
+                {
+                    message = "Una contraseña de letras, números y caracteres especiales debe tener un mínimo de 8 caracteres.";
+                }
+            }
+
+            if (String.IsNullOrEmpty(message))
+            {
+                var random = new Random();
+                password = new string(Enumerable.Repeat(chars, passwordLength)
+                  .Select(s => s[random.Next(s.Length)]).ToArray());
+            }
+        }
+    }
+}
+
+<!DOCTYPE html>
+<html>
+<body>
+    <form method="post">
+    <div id="generador">
+        <h1>Generador de contraseñas</h1>
+        <div id="contenido">
+            <p>Contenido: </p>
+            <select id="selector" name="passwordType">
+                <option value="1">Letras</option>
+                <option value="2">Letras y números</option>
+                <option value="3">Letras, números y símbolos</option>
+            </select>
+        </div>
+        <div id="tamaño">
+            <p>Tamaño: </p>
+            <input id="Ntamaño" type="number" name="passwordLength" min="8" max="20" />
+        </div>
+        <div id="botones">
+        <input type="submit" value="Generar" />
+        <input type="submit" value="Limpiar" />
+        </div>
+    </div>
+        <div id="comprobador">
+        <input type="text" name="passwordTest" />
+        <input type="hidden" name="password" value="@password" />
+        <input type="submit" value="Comprobar" />
+        </div>
+    </form>
+    <p>@password</p>
+    <p>@message</p>
+</body>
+</html>
