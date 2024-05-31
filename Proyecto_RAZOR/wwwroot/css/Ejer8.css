@@ -1,6 +1,19 @@
-﻿#imagenes {
+﻿#numeroIN {
+    width: 200px;
+    text-align: center;
+    border-radius: 15px;
+}
+
+#ver {
+    width: 200px;
+    text-align: center;
+    border-radius: 15px;
+}
+
+#imagenes {
     display: flex;
-    width: 50%;
+    width: 75%;
+    margin-top: 40px;
 }
 
 img {
