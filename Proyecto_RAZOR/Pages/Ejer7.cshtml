@@ -1,6 +1,82 @@
 ﻿@page
+@using System.Collections.Generic
+@using System.Linq
+@using System.Text.Json
 @model Proyecto_RAZOR.Pages.Ejer7Model
 @{
-	ViewData["Title"] = "Ejercicio 7";
+    ViewData["Title"] = "Ejercicio 7";
 }
 
+@{
+    ViewData["Title"] = "Ejercicio 7";
+
+    // Inicializa o recupera la lista de números de la sesión
+    List<int> numberList = new List<int>();
+    if (HttpContext.Session.TryGetValue("NumberList", out var numberListBytes))
+    {
+        numberList = JsonSerializer.Deserialize<List<int>>(numberListBytes);
+    }
+
+    Dictionary<int, int> numberCounts = new Dictionary<int, int>();
+    string mensajeError = null;
+
+    if (HttpContext.Request.Method == "POST")
+    {
+        string input = Request.Form["numberInput"];
+
+        if (int.TryParse(input, out int number))
+        {
+            if (number == 0)
+            {
+                // Cuenta las ocurrencias y reinicia la lista
+                numberCounts = numberList.GroupBy(n => n)
+                                         .ToDictionary(g => g.Key, g => g.Count());
+                numberList.Clear();
+            }
+            else
+            {
+                numberList.Add(number);
+            }
+
+            // Guarda la lista en la sesión
+            HttpContext.Session.Set("NumberList", JsonSerializer.SerializeToUtf8Bytes(numberList));
+        }
+        else
+        {
+            mensajeError = "Por favor, ingrese un número entero válido.";
+        }
+    }
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="./css/Ejer7.css" />
+</head>
+<body>
+
+    <form method="post">
+        <div id="formulario">
+            <label for="numberInput">Introduce el número siguiente:</label>
+            <input type="number" id="numberInput" name="numberInput" />
+            <button type="submit">Enviar</button>
+            <p>Introduzca el cero para finalizar.</p>
+        </div>
+        @if (mensajeError != null)
+        {
+            <p style="color:red;">@mensajeError</p>
+        }
+    </form>
+
+    @if (numberCounts != null && numberCounts.Count > 0)
+    {
+        <p>Numero: Veces que aparece:</p>
+        <ul>
+            @foreach (var numeroConteo in numberCounts)
+            {
+                <li id="resultado">@numeroConteo.Key <div class="aparece">@numeroConteo.Value</div></li>
+            }
+        </ul>
+    }
+</body>
+</html>

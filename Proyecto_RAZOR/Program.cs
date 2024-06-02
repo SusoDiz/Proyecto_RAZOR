@@ -8,6 +8,8 @@ namespace Proyecto_RAZOR
 
             // Add services to the container.
             builder.Services.AddRazorPages();
+            builder.Services.AddSession();
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             var app = builder.Build();
 
@@ -19,6 +21,7 @@ namespace Proyecto_RAZOR
                 app.UseHsts();
             }
 
+            app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
